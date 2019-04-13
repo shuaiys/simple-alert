@@ -1,4 +1,4 @@
-package com.galen.alert;
+package com.galen.alert.client;
 
 /**
  * @author shuaiys
@@ -7,5 +7,5 @@ package com.galen.alert;
  * @description TODO
  * @date 2019-04-12 14:35
  */
-public class AlertCore {
+public class AlertClient {
 }

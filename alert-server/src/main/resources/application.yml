@@ -1,0 +1,62 @@
+spring:
+  ###邮件
+  mail:
+    host: smtp.163.com
+    username: xxx@163.com
+    password: xxxx
+    properties:
+      mail:
+      smtp:
+        # 需要验证登录名和密码
+        auth: true
+        starttls:
+        # 需要TLS认证 保证发送邮件安全验证
+        enable: true
+        required: true
+  application:
+    name: alert-server
+  datasource:
+    driver-class-name : com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/alert?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 15
+      minimum-idle: 5
+      pool-name: springHikariCP
+      validation-timeout: 3000
+#  mvc:
+#    view:
+#      prefix: /templates/
+#      suffix: .html
+server:
+  port: 8080
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:sqlmap/*.xml
+  type-aliases-package: com.galen.alert.core.domain
+
+###钉钉消息
+ding:
+ url: https://oapi.dingtalk.com/robot/send?access_token=347f38d564da98630a1a09963e88bc97f85a82f7152208e5f4faa33f215ab755
+ ### mq
+ rocketmq:
+  alert:
+   producerid: GID-alert
+   consumerid: GID-alert
+   topic: pet-out-netty-dev
+   tag:  alert-tag
+  consumer:
+   accesskey: LTAIRj1AX2smEARr
+   secretkey : KOfqXq6p3Kfx35r8yPJbKgcnnabAVh
+  onsaddr : http://onsaddr-internet.aliyun.com/rocketmq/nsaddr4client-internet
+  producer:
+    accesskey : LTAICJiHwMyb7jVy
+    secretkey : II5QDGjL69FOYMxhCBC3QVqnGVEeKt

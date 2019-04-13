@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.galen.alert.core.dao.AlertMsgRecordDAO">
+  <resultMap id="BaseResultMap" type="com.galen.alert.core.domain.AlertMsgRecordDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="msg_type" jdbcType="TINYINT" property="msgType" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="level" jdbcType="TINYINT" property="level" />
+    <result column="interface_name" jdbcType="VARCHAR" property="interfaceName" />
+    <result column="code_location" jdbcType="VARCHAR" property="codeLocation" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.galen.alert.core.domain.AlertMsgRecordDO">
+    <result column="exception_msg" jdbcType="LONGVARCHAR" property="exceptionMsg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, module_name, msg_type, source, level, interface_name, code_location, info, is_delete, 
+    create_time, modify_time
+  </sql>
+  <sql id="Blob_Column_List">
+    exception_msg
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.galen.alert.core.domain.AlertMsgRecordDOExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from alert_msg_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.galen.alert.core.domain.AlertMsgRecordDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from alert_msg_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="page != null">
+      limit #{page.startNum} , #{page.pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from alert_msg_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from alert_msg_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.galen.alert.core.domain.AlertMsgRecordDOExample">
+    delete from alert_msg_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.galen.alert.core.domain.AlertMsgRecordDO">
+    insert into alert_msg_record (id, module_name, msg_type, 
+      source, level, interface_name, 
+      code_location, info, is_delete, 
+      create_time, modify_time, exception_msg
+      )
+    values (#{id,jdbcType=BIGINT}, #{moduleName,jdbcType=VARCHAR}, #{msgType,jdbcType=TINYINT}, 
+      #{source,jdbcType=TINYINT}, #{level,jdbcType=TINYINT}, #{interfaceName,jdbcType=VARCHAR}, 
+      #{codeLocation,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{exceptionMsg,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.galen.alert.core.domain.AlertMsgRecordDO">
+    insert into alert_msg_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="moduleName != null">
+        module_name,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="interfaceName != null">
+        interface_name,
+      </if>
+      <if test="codeLocation != null">
+        code_location,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="exceptionMsg != null">
+        exception_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="moduleName != null">
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=TINYINT},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="interfaceName != null">
+        #{interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeLocation != null">
+        #{codeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionMsg != null">
+        #{exceptionMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.galen.alert.core.domain.AlertMsgRecordDOExample" resultType="java.lang.Long">
+    select count(*) from alert_msg_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update alert_msg_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.moduleName != null">
+        module_name = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgType != null">
+        msg_type = #{record.msgType,jdbcType=TINYINT},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source,jdbcType=TINYINT},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=TINYINT},
+      </if>
+      <if test="record.interfaceName != null">
+        interface_name = #{record.interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codeLocation != null">
+        code_location = #{record.codeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.info != null">
+        info = #{record.info,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exceptionMsg != null">
+        exception_msg = #{record.exceptionMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update alert_msg_record
+    set id = #{record.id,jdbcType=BIGINT},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      msg_type = #{record.msgType,jdbcType=TINYINT},
+      source = #{record.source,jdbcType=TINYINT},
+      level = #{record.level,jdbcType=TINYINT},
+      interface_name = #{record.interfaceName,jdbcType=VARCHAR},
+      code_location = #{record.codeLocation,jdbcType=VARCHAR},
+      info = #{record.info,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      exception_msg = #{record.exceptionMsg,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update alert_msg_record
+    set id = #{record.id,jdbcType=BIGINT},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      msg_type = #{record.msgType,jdbcType=TINYINT},
+      source = #{record.source,jdbcType=TINYINT},
+      level = #{record.level,jdbcType=TINYINT},
+      interface_name = #{record.interfaceName,jdbcType=VARCHAR},
+      code_location = #{record.codeLocation,jdbcType=VARCHAR},
+      info = #{record.info,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.galen.alert.core.domain.AlertMsgRecordDO">
+    update alert_msg_record
+    <set>
+      <if test="moduleName != null">
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=TINYINT},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="interfaceName != null">
+        interface_name = #{interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeLocation != null">
+        code_location = #{codeLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionMsg != null">
+        exception_msg = #{exceptionMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.galen.alert.core.domain.AlertMsgRecordDO">
+    update alert_msg_record
+    set module_name = #{moduleName,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=TINYINT},
+      source = #{source,jdbcType=TINYINT},
+      level = #{level,jdbcType=TINYINT},
+      interface_name = #{interfaceName,jdbcType=VARCHAR},
+      code_location = #{codeLocation,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      exception_msg = #{exceptionMsg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.galen.alert.core.domain.AlertMsgRecordDO">
+    update alert_msg_record
+    set module_name = #{moduleName,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=TINYINT},
+      source = #{source,jdbcType=TINYINT},
+      level = #{level,jdbcType=TINYINT},
+      interface_name = #{interfaceName,jdbcType=VARCHAR},
+      code_location = #{codeLocation,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
